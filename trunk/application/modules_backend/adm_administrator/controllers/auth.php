@@ -5,6 +5,10 @@ class Auth extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
+		
+		$this->load->library('form_validation');
+		$this->load->library('admin_auth');
+		
 	}
 	
 	function index()
@@ -17,15 +21,28 @@ class Auth extends Admin_Controller {
 	function login()
 	{
 		// Path : [module_name]/[current view path]
-		if(!$this->input->post('btnSubmit'))
+		
+		if (!$this->admin_auth->is_logged_in())
 		{
-			echo $this->render('adm_administrator/auth/login_form',$this->_data);
-			return;
+			$val = $this->form_validation;
+			
+			// Set form validation rules
+			$val->set_rules('email', 'Email', 'trim|required|email|xss_clean');
+			$val->set_rules('password', 'Password', 'trim|required|xss_clean');
+
+			if ($val->run() AND $this->admin_auth->login($val->set_value('email'), $val->set_value('password'),FALSE))
+			{
+				// Redirect to homepage
+				redirect('adm_dashboard');
+			}
 		}
 		
-		
+		// Hien thi form login
+		echo $this->render('adm_administrator/auth/login_form',$this->_data);
+		return;
 
-	}
+	}	
+	
 	
 	function validate_credentials()
 	{		
@@ -47,89 +64,15 @@ class Auth extends Admin_Controller {
 		}
 	}	
 	
-	function signup()
-	{
-		$data['main_content'] = 'signup_form';
-		$this->load->view('includes/template', $data);
-	}
-	
-	function create_member()
-	{
-		$this->load->library('form_validation');
-		
-		// field name, error message, validation rules
-		$this->form_validation->set_rules('first_name', 'Name', 'trim|required');
-		$this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
-		$this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email');
-		$this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[4]');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[4]|max_length[32]');
-		$this->form_validation->set_rules('password2', 'Password Confirmation', 'trim|required|matches[password]');
-		
-		
-		if($this->form_validation->run() == FALSE)
-		{
-			$this->load->view('signup_form');
-		}
-		
-		else
-		{			
-			$this->load->model('membership_model');
-			
-			if($query = $this->membership_model->create_member())
-			{
-				$data['main_content'] = 'signup_successful';
-				$this->load->view('includes/template', $data);
-			}
-			else
-			{
-				$this->load->view('signup_form');			
-			}
-		}
-		
-	}
-	
-	function logout()
-	{
-		$this->session->unset_userdata('username');
-		$this->session->unset_userdata('is_logged_in');
-		$this->session->sess_destroy();
-		$this->index();
-	}	
-	
-	function is_logged_in()
-	{
-		$is_logged_in = $this->session->userdata('is_logged_in');
-		if(!isset($is_logged_in) || $is_logged_in != true)
-		{
-			echo 'You don\'t have permission to access this page. <a href="../login">Login</a>';	
-			die();		
-			//$this->load->view('login_form');
-		}		
-	}
-	
-	function cp()
-	{
-		if( $this->session->userdata('username') )
-		{
-			// load the model for this controller
-			$this->load->model('login/membership_model');
-			// Get User Details from Database
-			$user = $this->membership_model->get_member_details();
-			if( !$user )
-			{
-				// No user found
-				return false;
-			}
-			else
-			{
-				// display our widget
-				$this->load->view('login/user_widget', $user);
-			}			
-		}
-		else
-		{
-			// There is no session so we return nothing
-			return false;
-		}
-	}
+//	function is_logged_in()
+//	{
+//		$is_logged_in = $this->session->userdata('is_logged_in');
+//		if(!isset($is_logged_in) || $is_logged_in != true)
+//		{
+//			echo 'You don\'t have permission to access this page. <a href="../login">Login</a>';	
+//			die();		
+//			//$this->load->view('login_form');
+//		}		
+//	}
+
 }
