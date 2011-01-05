@@ -1,5 +1,25 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+
+// define the site path BASE_DIR : c:\xampp\htdocs\mvc_v2
+define ('BASE_DIR', realpath(dirname(__FILE__)));
+	
+// BASE_URL : /mvc_v2/
+define ('BASE_URL', str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']));
+ 	
+// the application directory path 
+//define('DIR_APPLICATION', DIR_BASE.'/application/');
+//define('DIR_LIBRARY', DIR_BASE . '/library/');
+//define('DIR_TEMPLATE', DIR_APPLICATION . 'view/');
+//define('DIR_LAYOUT', DIR_BASE . '/layouts/');
+
+define('_TB_PREFIX', 'core_');
+define('TB_CI_SESSIONS', _TB_PREFIX . 'ci_sessions');
+define('TB_USERS', _TB_PREFIX . 'users');
+define('TB_PERMISSIONS', _TB_PREFIX . 'permissions');
+define('TB_ROLES', _TB_PREFIX . 'roles');
+
+
 /*
 |--------------------------------------------------------------------------
 | File and Directory Modes
