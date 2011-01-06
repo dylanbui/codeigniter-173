@@ -12,6 +12,24 @@ class Users extends DataMapper
 	
 	// General function
 	
+	function auth($email,$password)
+	{
+		$result = FALSE;
+		if ($row = $this->get_user_by_email($email) AND $row->result_count() == 1)		
+		{
+			$password = $this->_encode($password);
+			$stored_hash = $row->password;
+
+			// Is password matched with hash in database ?
+			if (crypt($password, $stored_hash) === $stored_hash)
+			{
+				// Set return value
+				$result = $row;
+			}			
+		}
+		return $result;
+	}
+	
 	function get_all($offset = 0, $row_count = 0)
 	{
 		$users_table = $this->_table;
@@ -190,6 +208,44 @@ class Users extends DataMapper
 		$this->where('id', $user_id)->get();
 		return $this->db->update(array('password' => $new_pass));
 	}
+	
+	/*
+	* Function: _encode
+	* Modified for DX_Auth
+	* Original Author: FreakAuth_light 1.1
+	*/
+	private function _encode($password)
+	{
+		$majorsalt = 'buivantienduc';
+		
+		// if PHP5
+		if (function_exists('str_split'))
+		{
+			$_pass = str_split($password);
+		}
+		// if PHP4
+		else
+		{
+			$_pass = array();
+			if (is_string($password))
+			{
+				for ($i = 0; $i < strlen($password); $i++)
+				{
+					array_push($_pass, $password[$i]);
+				}
+			}
+		}
+
+		// encrypts every single letter of the password
+		foreach ($_pass as $_hashpass)
+		{
+			$majorsalt .= md5($_hashpass);
+		}
+
+		// encrypts the string combinations of every single encrypted letter
+		// and finally returns the encrypted password
+		return md5($majorsalt);
+	}	
 }
 
 ?>
