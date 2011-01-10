@@ -37,7 +37,7 @@ class Auth extends Admin_Controller {
 			}
 		}
 		
-		// Hien thi form login
+		// Hien thi form login - khong can layout
 		echo $this->render('adm_administrator/auth/login_form',$this->_data);
 		return;
 
