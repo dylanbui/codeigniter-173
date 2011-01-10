@@ -11,25 +11,6 @@ class Users extends DataMapper
 	}		
 	
 	// General function
-	
-	function auth($email,$password)
-	{
-		$result = FALSE;
-		if ($row = $this->get_user_by_email($email) AND $row->result_count() == 1)		
-		{
-			$password = $this->_encode($password);
-			$stored_hash = $row->password;
-
-			// Is password matched with hash in database ?
-			if (crypt($password, $stored_hash) === $stored_hash)
-			{
-				// Set return value
-				$result = $row;
-			}			
-		}
-		return $result;
-	}
-	
 	function get_all($offset = 0, $row_count = 0)
 	{
 		$users_table = $this->_table;
@@ -170,82 +151,44 @@ class Users extends DataMapper
 		return $this->set_user($user_id, $data);
 	}
 
-	function activate_newpass($user_id, $key)
-	{
-//		$this->db->set('password', 'newpass', FALSE);
-//		$this->db->set('newpass', NULL);
-//		$this->db->set('newpass_key', NULL);
-//		$this->db->set('newpass_time', NULL);
-//		$this->db->where('id', $user_id);
-//		$this->db->where('newpass_key', $key);
-		
-		$data['password'] = FALSE;
-		$data['newpass'] = FALSE;
-		$data['newpass'] = NULL;
-		$data['newpass_key'] = NULL;
-		$data['newpass_time'] = NULL;
-		
-		$this->where('id', $user_id);
-		$this->where('newpass_key', $key);
-		return $this->update($data);
-	}
+//	function activate_newpass($user_id, $key)
+//	{
+////		$this->db->set('password', 'newpass', FALSE);
+////		$this->db->set('newpass', NULL);
+////		$this->db->set('newpass_key', NULL);
+////		$this->db->set('newpass_time', NULL);
+////		$this->db->where('id', $user_id);
+////		$this->db->where('newpass_key', $key);
+//		
+//		$data['password'] = FALSE;
+//		$data['newpass'] = FALSE;
+//		$data['newpass'] = NULL;
+//		$data['newpass_key'] = NULL;
+//		$data['newpass_time'] = NULL;
+//		
+//		$this->where('id', $user_id);
+//		$this->where('newpass_key', $key);
+//		return $this->update($data);
+//	}
 
-	function clear_newpass($user_id)
-	{
-		$data = array(
-			'newpass' 			=> NULL,
-			'newpass_key' 	=> NULL,
-			'newpass_time' 	=> NULL
-		);
-		return $this->set_user($user_id, $data);
-	}
+//	function clear_newpass($user_id)
+//	{
+//		$data = array(
+//			'newpass' 			=> NULL,
+//			'newpass_key' 	=> NULL,
+//			'newpass_time' 	=> NULL
+//		);
+//		return $this->set_user($user_id, $data);
+//	}
 	
 	// Change password function
-
 	function change_password($user_id, $new_pass)
 	{
 //		$this->db->set('password', $new_pass);
 		$this->where('id', $user_id)->get();
 		return $this->db->update(array('password' => $new_pass));
 	}
-	
-	/*
-	* Function: _encode
-	* Modified for DX_Auth
-	* Original Author: FreakAuth_light 1.1
-	*/
-	private function _encode($password)
-	{
-		$majorsalt = 'buivantienduc';
-		
-		// if PHP5
-		if (function_exists('str_split'))
-		{
-			$_pass = str_split($password);
-		}
-		// if PHP4
-		else
-		{
-			$_pass = array();
-			if (is_string($password))
-			{
-				for ($i = 0; $i < strlen($password); $i++)
-				{
-					array_push($_pass, $password[$i]);
-				}
-			}
-		}
 
-		// encrypts every single letter of the password
-		foreach ($_pass as $_hashpass)
-		{
-			$majorsalt .= md5($_hashpass);
-		}
-
-		// encrypts the string combinations of every single encrypted letter
-		// and finally returns the encrypted password
-		return md5($majorsalt);
-	}	
 }
 
 ?>
