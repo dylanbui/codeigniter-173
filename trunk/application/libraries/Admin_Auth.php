@@ -19,7 +19,6 @@ class Admin_Auth
 	var $_banned;
 	var $_ban_reason;
 	var $_auth_error;	// Contain user error when login
-	var $_captcha_image;
 	
 	function Admin_Auth()
 	{
@@ -30,6 +29,9 @@ class Admin_Auth
 		// Load required library
 		$this->ci->load->library('session');
 		$this->ci->load->database();
+		
+		// Load Admin Auth language		
+		$this->ci->lang->load('adm_auth');
 		
 		// Initialize
 		$this->_init();
@@ -482,53 +484,53 @@ class Admin_Auth
 		return $result;
 	}
 
-	function deny_access($uri = 'deny')
-	{
-		$this->ci->load->helper('url');
-	
-		if ($uri == 'login')
-		{
-			redirect($this->ci->config->item('DX_login_uri'), 'location');
-		}
-		else if ($uri == 'banned')
-		{
-			redirect($this->ci->config->item('DX_banned_uri'), 'location');
-		}
-		else
-		{
-			redirect($this->ci->config->item('DX_deny_uri'), 'location');			
-		}
-		exit;
-	}
+//	function deny_access($uri = 'deny')
+//	{
+//		$this->ci->load->helper('url');
+//	
+//		if ($uri == 'login')
+//		{
+//			redirect($this->ci->config->item('DX_login_uri'), 'location');
+//		}
+//		else if ($uri == 'banned')
+//		{
+//			redirect($this->ci->config->item('DX_banned_uri'), 'location');
+//		}
+//		else
+//		{
+//			redirect($this->ci->config->item('DX_deny_uri'), 'location');			
+//		}
+//		exit;
+//	}
 	
 	// Get user id
 	function get_user_id()
 	{
-		return $this->ci->session->userdata('DX_user_id');
+		return $this->ci->session->userdata('adm_user_id');
 	}
 
 	// Get username string
 	function get_username()
 	{
-		return $this->ci->session->userdata('DX_username');
+		return $this->ci->session->userdata('adm_username');
 	}
 	
 	// Get user role id
 	function get_role_id()
 	{
-		return $this->ci->session->userdata('DX_role_id');
+		return $this->ci->session->userdata('adm_role_id');
 	}
 	
 	// Get user role name
 	function get_role_name()
 	{
-		return $this->ci->session->userdata('DX_role_name');
+		return $this->ci->session->userdata('adm_role_name');
 	}
 	
 	// Check is user is has admin privilege
 	function is_admin()
 	{
-		return strtolower($this->ci->session->userdata('DX_role_name')) == 'admin';
+		return strtolower($this->ci->session->userdata('adm_role_name')) == 'admin';
 	}
 	
 	// Check if user has $roles privilege
@@ -548,22 +550,22 @@ class Admin_Auth
 			// Add parent roles into check array
 			if ($use_role_name)
 			{
-				$check_array = $this->ci->session->userdata('DX_parent_roles_name');
+				$check_array = $this->ci->session->userdata('adm_parent_roles_name');
 			}
 			else
 			{
-				$check_array = $this->ci->session->userdata('DX_parent_roles_id');
+				$check_array = $this->ci->session->userdata('adm_parent_roles_id');
 			}
 		}
 		
 		// Add current role into check array
 		if ($use_role_name)
 		{
-			array_push($check_array, $this->ci->session->userdata('DX_role_name'));
+			array_push($check_array, $this->ci->session->userdata('adm_role_name'));
 		}
 		else
 		{
-			array_push($check_array, $this->ci->session->userdata('DX_role_id'));
+			array_push($check_array, $this->ci->session->userdata('adm_role_id'));
 		}
 		
 		// If $roles not array then we add it into an array
@@ -599,9 +601,9 @@ class Admin_Auth
 	// Check if user is logged in
 	function is_logged_in()
 	{
-		return $this->ci->session->userdata('DX_logged_in');
+		return $this->ci->session->userdata('adm_logged_in');
 	}
-
+	
 	// Check if user is a banned user, call this only after calling login() and returning FALSE
 	function is_banned()
 	{
@@ -614,39 +616,6 @@ class Admin_Auth
 		return $this->_ban_reason;
 	}
 	
-	// Check if username is available to use, by making sure there is no same username in the database
-	function is_username_available($username)
-	{
-		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_temp', 'user_temp');
-
-		$users = $this->ci->users->check_username($username);
-		$temp = $this->ci->user_temp->check_username($username);
-
-		return $users->result_count() + $temp->result_count() == 0;
-	}
-	
-	// Check if email is available to use, by making sure there is no same email in the database
-	function is_email_available($email)
-	{
-		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_temp', 'user_temp');
-
-		$users = $this->ci->users->check_email($email);
-		$temp = $this->ci->user_temp->check_email($email);
-		
-		return $users->result_count() + $temp->result_count() == 0;
-	}			
-	
-	// Check if login attempts bigger than max login attempts specified in config
-	function is_max_login_attempts_exceeded()
-	{
-		$this->ci->load->model('user/login_attempts', 'login_attempts');
-		
-		return ($this->ci->login_attempts->check_attempts($this->ci->input->ip_address())->result_count() >= $this->ci->config->item('DX_max_login_attempts'));
-	}
 	
 	function get_auth_error()
 	{
@@ -661,36 +630,16 @@ class Admin_Auth
 	function login($login, $password, $remember = TRUE)
 	{
 		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_temp', 'user_temp');
-		$this->ci->load->model('user/login_attempts', 'login_attempts');
+		$this->ci->load->model('users', 'users');
 			
 		// Default return value
 		$result = FALSE;
 				
 		if ( ! empty($login) AND ! empty($password))
 		{
-			// Get which function to use based on config
-			if ($this->ci->config->item('DX_login_using_username') AND $this->ci->config->item('DX_login_using_email'))
-			{
-				$get_user_function = 'get_login';
-			}
-			else if ($this->ci->config->item('DX_login_using_email'))
-			{
-				$get_user_function = 'get_user_by_email';
-			}			
-			else
-			{
-				$get_user_function = 'get_user_by_username';
-			}
-		
 			// Get user query
-			if ($query = $this->ci->users->$get_user_function($login) AND $query->result_count() == 1)
+			if ($row = $this->ci->users->get_user_by_email($login) AND $row->result_count() == 1)
 			{
-				// Get user record
-//				$row = $query->row();
-				$row = $query;
-
 				// Check if user is banned or not
 				if ($row->banned > 0)
 				{
@@ -711,48 +660,21 @@ class Admin_Auth
 						// Log in user 
 						$this->_set_session($row); 												
 						
-						if ($row->newpass)
-						{
-							// Clear any Reset Passwords
-							$this->ci->users->clear_newpass($row->id); 
-						}
-						
-						if ($remember)
-						{
-							// Create auto login if user want to be remembered
-							$this->_create_autologin($row->id);
-						}						
-						
 						// Set last ip and last login
 						$this->_set_last_ip_and_last_login($row->id);
-						// Clear login attempts
-						$this->_clear_login_attempts();
 						
-						// Trigger event
-						$this->ci->dx_auth_event->user_logged_in($row->id);
-
 						// Set return value
 						$result = TRUE;
 					}
 					else						
 					{
-						// Increase login attempts
-						$this->_increase_login_attempt();
 						// Set error message
 						$this->_auth_error = $this->ci->lang->line('auth_login_incorrect_password');
 					}
 				}				
 			}
-			// Check if login is still not activated
-			elseif ($query = $this->ci->user_temp->$get_user_function($login) AND $query->result_count() == 1)
-			{
-				// Set error message
-				$this->_auth_error = $this->ci->lang->line('auth_not_activated');
-			}
 			else
 			{
-				// Increase login attempts
-				$this->_increase_login_attempt();
 				// Set error message
 				$this->_auth_error = $this->ci->lang->line('auth_login_username_not_exist');
 			}
@@ -763,14 +685,6 @@ class Admin_Auth
 
 	function logout()
 	{
-		// Trigger event
-		$this->ci->dx_auth_event->user_logging_out($this->ci->session->userdata('DX_user_id'));
-	
-		// Delete auto login
-		if ($this->ci->input->cookie($this->ci->config->item('DX_autologin_cookie_name'))) {
-			$this->_delete_autologin();
-		}
-		
 		// Destroy session
 		$this->ci->session->sess_destroy();		
 	}
@@ -778,8 +692,7 @@ class Admin_Auth
 	function register($username, $password, $email)
 	{		
 		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_temp', 'user_temp');
+		$this->ci->load->model('users', 'users');
 
 		$this->ci->load->helper('url');
 		
@@ -794,22 +707,8 @@ class Admin_Auth
 			'last_ip'					=> $this->ci->input->ip_address()
 		);
 
-		// Do we need to send email to activate user
-		if ($this->ci->config->item('DX_email_activation'))
-		{
-			// Add activation key to user array
-			$new_user['activation_key'] = md5(rand().microtime());
-			
-			// Create temporary user in database which means the user still unactivated.
-			$insert = $this->ci->user_temp->create_temp($new_user);
-		}
-		else
-		{				
-			// Create user 
-			$insert = $this->ci->users->create_user($new_user);
-			// Trigger event
-			$this->ci->dx_auth_event->user_activated($this->ci->db->insert_id());				
-		}
+		// Create user 
+		$insert = $this->ci->users->create_user($new_user);
 		
 		if ($insert)
 		{
@@ -818,199 +717,27 @@ class Admin_Auth
 			
 			$result = $new_user;
 			
-			// Send email based on config
-		
-			// Check if user need to activate it's account using email
-			if ($this->ci->config->item('DX_email_activation'))
-			{
-				// Create email
-				$from = $this->ci->config->item('DX_webmaster_email');
-				$subject = sprintf($this->ci->lang->line('auth_activate_subject'), $this->ci->config->item('DX_website_name'));
-
-				// Activation Link
-				$new_user['activate_url'] = site_url($this->ci->config->item('DX_activate_uri')."{$new_user['username']}/{$new_user['activation_key']}");
-				
-				// Trigger event and get email content
-				$this->ci->dx_auth_event->sending_activation_email($new_user, $message);
-
-				// Send email with activation link
-				$this->_email($email, $from, $subject, $message);
-			}
-			else
-			{
-				// Check if need to email account details						
-				if ($this->ci->config->item('DX_email_account_details')) 
-				{
-					// Create email
-					$from = $this->ci->config->item('DX_webmaster_email');
-					$subject = sprintf($this->ci->lang->line('auth_account_subject'), $this->ci->config->item('DX_website_name')); 
+			// Create email
+			$from = "webmaster@yahoo.com";
+			$subject = sprintf($this->ci->lang->line('auth_account_subject'), 'Website Name'); 
 					
-					// Trigger event and get email content
-					$this->ci->dx_auth_event->sending_account_email($new_user, $message);
-
-					// Send email with account details
-					$this->_email($email, $from, $subject, $message);														
-				}
-			}
+			// Send email with account details
+			$this->_email($email, $from, $subject, $message);														
 		}
 		
-		return $result;
-	}
-
-	function forgot_password($login)
-	{
-		// Default return value
-		$result = FALSE;
-	
-		if ($login)
-		{
-			// Load Model
-			$this->ci->load->model('user/users', 'users');
-			// Load Helper
-			$this->ci->load->helper('url');
-
-			// Get login and check if it's exist 
-			if ($query = $this->ci->users->get_login($login) AND $query->result_count() == 1)
-			{
-				// Get User data
-				$row = $query->row();
-				
-				// Check if there is already new password created but waiting to be activated for this login
-				if ( ! $row->newpass_key)
-				{
-					// Appearantly there is no password created yet for this login, so we create new password
-					$data['password'] = $this->_gen_pass();
-					
-					// Encode & Crypt password
-					$encode = crypt($this->_encode($data['password'])); 
-
-					// Create key
-					$data['key'] = md5(rand().microtime());
-
-					// Create new password (but it haven't activated yet)
-					$this->ci->users->newpass($row->id, $encode, $data['key']);
-
-					// Create reset password link to be included in email
-					$data['reset_password_uri'] = site_url($this->ci->config->item('DX_reset_password_uri')."{$row->username}/{$data['key']}");
-					
-					// Create email
-					$from = $this->ci->config->item('DX_webmaster_email');
-					$subject = $this->ci->lang->line('auth_forgot_password_subject'); 
-					
-					// Trigger event and get email content
-					$this->ci->dx_auth_event->sending_forgot_password_email($data, $message);
-
-					// Send instruction email
-					$this->_email($row->email, $from, $subject, $message);
-					
-					$result = TRUE;
-				}
-				else
-				{
-					// There is already new password waiting to be activated
-					$this->_auth_error = $this->ci->lang->line('auth_request_sent');
-				}
-			}
-			else
-			{
-				$this->_auth_error = $this->ci->lang->line('auth_username_or_email_not_exist');
-			}
-		}
-		
-		return $result;
-	}
-
-	function reset_password($username, $key = '')
-	{
-		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_autologin', 'user_autologin');
-		
-		// Default return value
-		$result = FALSE;
-		
-		// Default user_id set to none
-		$user_id = 0;
-		
-		// Get user id
-		if ($query = $this->ci->users->get_user_by_username($username) AND $query->result_count() == 1)
-		{
-			$user_id = $query->row()->id;
-			
-			// Try to activate new password
-			if ( ! empty($username) AND ! empty($key) AND $this->ci->users->activate_newpass($user_id, $key) AND $this->ci->db->affected_rows() > 0 )
-			{
-				// Clear previously setup new password and keys
-				$this->ci->user_autologin->clear_keys($user_id);
-				
-				$result = TRUE;
-			}
-		}
-		return $result;
-	}
-
-	function activate($username, $key = '')
-	{		
-		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		$this->ci->load->model('user/user_temp', 'user_temp');
-		
-		// Default return value
-		$result = FALSE;
-				
-		if ($this->ci->config->item('DX_email_activation'))
-		{
-			// Delete user whose account expired (not activated until expired time)
-			$this->ci->user_temp->prune_temp();
-		}
-
-		// Activate user
-		if ($query = $this->ci->user_temp->activate_user($username, $key) AND $query->result_count() > 0)
-		{
-			// Get user 
-//			$row = $query->row_array();
-			$row = array(
-				'id' => $query->id,
-				'username' => $query->username,
-				'password' => $query->password,
-				'email' => $query->email,
-				'activation_key' => $query->activation_key,
-				'last_ip' => $query->last_ip,
-				'created' => $query->created
-			);
-			
-			$del = $row['id'];
-
-			// Unset any unwanted fields
-			unset($row['id']); // We don't want to copy the id across
-			unset($row['activation_key']);
-
-			// Create user
-			if ($this->ci->users->create_user($row))
-			{
-				// Trigger event
-				$this->ci->dx_auth_event->user_activated($this->ci->db->insert_id());	
-				
-				// Delete user from temp
-				$this->ci->user_temp->delete_user($del);		
-								
-				$result = TRUE;
-			}
-		}
-
 		return $result;
 	}
 
 	function change_password($old_pass, $new_pass)
 	{
 		// Load Models
-		$this->ci->load->model('user/users', 'users');
+		$this->ci->load->model('users', 'users');
 		
 		// Default return value
 		$result = FAlSE;
 
 		// Search current logged in user in database
-		if ($query = $this->ci->users->get_user_by_id($this->ci->session->userdata('DX_user_id')) AND $query->result_count() > 0)
+		if ($query = $this->ci->users->get_user_by_id($this->ci->session->userdata('adm_user_id')) AND $query->result_count() > 0)
 		{
 			// Get current logged in user
 			$row = $query->row();
@@ -1024,10 +751,7 @@ class Admin_Auth
 				$new_pass = crypt($this->_encode($new_pass));
 				
 				// Replace old password with new password
-				$this->ci->users->change_password($this->ci->session->userdata('DX_user_id'), $new_pass);
-				
-				// Trigger event
-				$this->ci->dx_auth_event->user_changed_password($this->ci->session->userdata('DX_user_id'), $new_pass);
+				$this->ci->users->change_password($this->ci->session->userdata('adm_user_id'), $new_pass);
 				
 				$result = TRUE;
 			}
@@ -1040,186 +764,7 @@ class Admin_Auth
 		return $result;
 	}
 	
-	function cancel_account($password)
-	{
-		// Load Models
-		$this->ci->load->model('user/users', 'users');
-		
-		// Default return value
-		$result = FAlSE;
-		
-		// Search current logged in user in database
-		if ($query = $this->ci->users->get_user_by_id($this->ci->session->userdata('DX_user_id')) AND $query->result_count() > 0)
-		{
-			// Get current logged in user
-			$row = $query->row();
-
-			$pass = $this->_encode($password);
-
-			// Check if password correct
-			if (crypt($pass, $row->password) === $row->password)
-			{
-				// Trigger event
-				$this->ci->dx_auth_event->user_canceling_account($this->ci->session->userdata('DX_user_id'));
-
-				// Delete user
-				$result = $this->ci->users->delete_user($this->ci->session->userdata('DX_user_id'));
-				
-				// Force logout
-				$this->logout();
-			}
-			else
-			{
-				$this->_auth_error = $this->ci->lang->line('auth_incorrect_password');
-			}
-		}
-		
-		return $result;
-	}
-	
 	/* End of main function */
-	
-	/* Captcha related function */
-
-	function captcha()
-	{
-		$this->ci->load->helper('url');
-		$this->ci->load->helper('captcha');
-	
-//		$this->ci->load->plugin('dx_captcha');
-		
-		$captcha_dir = trim($this->ci->config->item('DX_captcha_path'), './');
-
-		$vals = array(
-			'img_path'	 	=> './'.$captcha_dir.'/',
-			'img_url'			=> base_url().$captcha_dir.'/',
-			'font_path'	 	=> $this->ci->config->item('DX_captcha_fonts_path'),
-			'font_size'  	=> $this->ci->config->item('DX_captcha_font_size'),
-			'img_width'	 	=> $this->ci->config->item('DX_captcha_width'),
-			'img_height' 	=> $this->ci->config->item('DX_captcha_height'),
-			'show_grid'	 	=> $this->ci->config->item('DX_captcha_grid'),
-			'expiration' 	=> $this->ci->config->item('DX_captcha_expire')
-		);
-		
-		$cap = create_captcha($vals);
-
-		$store = array(
-			'captcha_word' => $cap['word'],
-			'captcha_time' => $cap['time']
-		);
-
-		// Plain, simple but effective
-		$this->ci->session->set_flashdata($store);
-
-		// Set our captcha
-		$this->_captcha_image = $cap['image'];
-	}
-	
-	function get_captcha_image()
-	{
-		return $this->_captcha_image;
-	}
-	
-	// Check if captcha already expired
-	// Use this in callback function in your form validation
-	function is_captcha_expired()
-	{
-		// Captcha Expired
-		list($usec, $sec) = explode(" ", microtime());
-		$now = ((float)$usec + (float)$sec);	
-		
-		// Check if captcha already expired
-		return (($this->ci->session->flashdata('captcha_time') + $this->ci->config->item('DX_captcha_expire')) < $now);						
-	}
-	
-	// Check is captcha match with code
-	// Use this in callback function in your form validation
-	function is_captcha_match($code)
-	{
-		if ($this->ci->config->item('DX_captcha_case_sensitive'))
-		{
-			// Just check if code is the same value with flash data captcha_word which created in captcha() function		
-			$result = ($code == $this->ci->session->flashdata('captcha_word'));
-		}
-		else
-		{
-			$result = strtolower($code) == strtolower($this->ci->session->flashdata('captcha_word'));
-		}
-		
-		return $result;
-	}		
-	
-	/* End of captcha related function */
-	
-	/* Recaptcha function */		
-		
-	function get_recaptcha_reload_link($text = 'Get another CAPTCHA')
-	{
-		return '<a href="javascript:Recaptcha.reload()">'.$text.'</a>';
-	}
-		
-	function get_recaptcha_switch_image_audio_link($switch_image_text = 'Get an image CAPTCHA', $switch_audio_text = 'Get an audio CAPTCHA')
-	{
-		return '<div class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type(\'audio\')">'.$switch_audio_text.'</a></div>
-			<div class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type(\'image\')">'.$switch_image_text.'</a></div>';
-	}
-	
-	function get_recaptcha_label($image_text = 'Enter the words above', $audio_text = 'Enter the numbers you hear')
-	{
-		return '<span class="recaptcha_only_if_image">'.$image_text.'</span>
-			<span class="recaptcha_only_if_audio">'.$audio_text.'</span>';
-	}
-	
-	// Get captcha image
-	function get_recaptcha_image()
-	{
-		return '<div id="recaptcha_image"></div>';
-	}
-	
-	// Get captcha input box 
-	// IMPORTANT: You should at least use this function when showing captcha even for testing, otherwise reCAPTCHA image won't show up
-	// because reCAPTCHA javascript will try to find input type with id="recaptcha_response_field" and name="recaptcha_response_field"
-	function get_recaptcha_input()
-	{
-		return '<input type="text" id="recaptcha_response_field" name="recaptcha_response_field" />';
-	}
-	
-	// Get recaptcha javascript and non javasript html
-	// IMPORTANT: you should put call this function the last, after you are using some of get_recaptcha_xxx function above.
-	function get_recaptcha_html()
-	{
-		// Load reCAPTCHA helper function
-		$this->ci->load->helper('recaptcha');
-		
-		// Add custom theme so we can get only image
-		$options = "<script>
-			var RecaptchaOptions = {
-				 theme: 'custom',
-				 custom_theme_widget: 'recaptcha_widget'
-			};
-			</script>";					
-			
-		// Get reCAPTCHA javascript and non javascript HTML
-		$html = recaptcha_get_html($this->ci->config->item('DX_recaptcha_public_key'));
-		
-		return $options.$html;
-	}
-	
-	// Check if entered captcha code match with the image.
-	// Use this in callback function in your form validation
-	function is_recaptcha_match()
-	{
-		$this->ci->load->helper('recaptcha');
-		
-		$resp = recaptcha_check_answer($this->ci->config->item('DX_recaptcha_private_key'),
-			$_SERVER["REMOTE_ADDR"],				
-			$_POST["recaptcha_challenge_field"],
-			$_POST["recaptcha_response_field"]);
-			
-		return $resp->is_valid;
-	}
-		
-	/* End of Recaptcha function */
 }
 
 ?>
