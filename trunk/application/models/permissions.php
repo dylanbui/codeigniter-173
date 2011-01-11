@@ -6,8 +6,7 @@ class Permissions Extends DataMapper
 	
 	function Permissions()
 	{
-		$CI = & get_instance();
-		$this->table = $CI->config->item('DX_table_prefix').$CI->config->item('DX_permissions_table');
+		$this->table = TB_PERMISSIONS;
 		parent::__construct();
 	}	
 	
