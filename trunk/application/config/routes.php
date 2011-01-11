@@ -44,6 +44,7 @@ $route['default_controller'] = "user";
 $route['scaffolding_trigger'] = "";
 
 $route['adm_([a-zA-Z_-]+)'] = "adm_$1/$1";
+//$route['adm_administrator'] = "adm_administrator/auth/login";
 //$route['adm_([a-zA-Z_-]+)/([a-zA-Z_-]+)'] = "adm_$1/$2/index";
 
 /* End of file routes.php */
