@@ -6,8 +6,7 @@ class Roles extends DataMapper
 	
 	function Roles()
 	{
-		$CI = & get_instance();
-		$this->table = $CI->config->item('DX_table_prefix').$CI->config->item('DX_roles_table');
+		$this->table = TB_ROLES;
 		parent::__construct();
 	}	
 	
