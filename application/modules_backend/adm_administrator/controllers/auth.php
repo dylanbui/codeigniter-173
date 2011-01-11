@@ -21,7 +21,6 @@ class Auth extends Admin_Controller {
 	function login()
 	{
 		// Path : [module_name]/[current view path]
-		
 		if (!$this->admin_auth->is_logged_in())
 		{
 			$val = $this->form_validation;
@@ -29,7 +28,7 @@ class Auth extends Admin_Controller {
 			// Set form validation rules
 			$val->set_rules('email', 'Email', 'trim|required|email|xss_clean');
 			$val->set_rules('password', 'Password', 'trim|required|xss_clean');
-
+			
 			if ($val->run() AND $this->admin_auth->login($val->set_value('email'), $val->set_value('password'),FALSE))
 			{
 				// Redirect to homepage
@@ -42,29 +41,6 @@ class Auth extends Admin_Controller {
 		return;
 
 	}	
-	
-//	function _set_session($data)
-//	{
-//		// Get role data
-//		$role_data = $this->_get_role_data($data->role_id);
-//	
-//		// Set session data array
-//		$user = array(						
-//			'DX_user_id'						=> $data->id,
-//			'DX_username'						=> $data->username,
-//			'DX_role_id'						=> $data->role_id,			
-//			'DX_role_name'					=> $role_data['role_name'],
-//			'DX_parent_roles_id'		=> $role_data['parent_roles_id'],	// Array of parent role_id
-//			'DX_parent_roles_name'	=> $role_data['parent_roles_name'], // Array of parent role_name
-//			'DX_permission'					=> $role_data['permission'],
-//			'DX_parent_permissions'	=> $role_data['parent_permissions'],			
-//			'DX_logged_in'					=> TRUE
-//		);
-//
-//		$this->ci->session->set_userdata($user);
-//	}
-	
-	
 	
 	function validate_credentials()
 	{		
