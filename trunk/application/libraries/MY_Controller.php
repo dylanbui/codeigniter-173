@@ -16,9 +16,14 @@ class MY_Controller extends MX_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		
+		$this->benchmark->mark('my_controller_start');
+		
         $this->_current_module = $this->router->fetch_module();
         $this->_current_controller = $this->router->fetch_class();
-        $this->_current_action = $this->router->fetch_method();		
+        $this->_current_action = $this->router->fetch_method();
+        
+        $this->benchmark->mark('my_controller_end');		
 	}
 	
 	public function __destruct()

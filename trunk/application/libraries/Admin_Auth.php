@@ -211,6 +211,7 @@ class Admin_Auth
 	
 			// Get role name
 			$role_name = $role->name;
+			$role_code = $role->code;
 			
 			/* 
 				Code below will search if user role_id have parent_id > 0 (which mean role_id have parent role_id)
@@ -286,6 +287,7 @@ class Admin_Auth
 		/* End of Get user and parents permission */
 		
 		// Set return value
+		$data['role_code'] = $role_code;
 		$data['role_name'] = $role_name;
 		$data['parent_roles_id'] = $parent_roles_id;
 		$data['parent_roles_name'] = $parent_roles_name;
@@ -304,7 +306,8 @@ class Admin_Auth
 		$user = array(						
 			'adm_user_id'						=> $data->id,
 			'adm_username'						=> $data->username,
-			'adm_role_id'						=> $data->role_id,			
+			'adm_role_id'						=> $data->role_id,
+			'adm_role_code'					=> $role_data['role_code'],
 			'adm_role_name'					=> $role_data['role_name'],
 			'adm_parent_roles_id'		=> $role_data['parent_roles_id'],	// Array of parent role_id
 			'adm_parent_roles_name'	=> $role_data['parent_roles_name'], // Array of parent role_name
