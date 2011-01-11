@@ -47,11 +47,11 @@
 			<div class="login-data">
 				<div class="row clear">
 					<label for="user">Username:</label>
-    					<input type="text" value="admin" size="25" class="text" id="user" />
+    					<input type="text" value="" size="25" class="text" name="email" />
     				</div>
  				<div class="row clear">
 					<label for="password">Password:</label>
-					<input type="password" value="password" size="25" class="text" id="password" />
+					<input type="password" value="" size="25" class="text" name="password" />
 				</div>
 				<input type="submit" name="btnSubmit" class="button" value="Login" />
 			</div>
