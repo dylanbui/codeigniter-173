@@ -10,11 +10,11 @@ class Admin_Controller extends MY_Controller
 		$this->_global_layout = "main_layout";
 		
 		// Show error and exit if the user does not have sufficient permissions
-	    if( ! $this->_check_access() )
-	    {
-		  	show_error("You don't permission for this action !!!");
-		    exit;
-	    }
+//	    if( ! $this->_check_access() )
+//	    {
+//		  	show_error("You don't permission for this action !!!");
+//		    exit;
+//	    }
 	}
 
 	private function _check_access()
