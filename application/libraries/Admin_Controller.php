@@ -12,7 +12,7 @@ class Admin_Controller extends MY_Controller
 		// Show error and exit if the user does not have sufficient permissions
 	    if( ! $this->_check_access() )
 	    {
-		  	show_error("Khong co quyen vao chuc nang nay");
+		  	show_error("You don't permission for this action !!!");
 		    exit;
 	    }
 	}
@@ -21,13 +21,15 @@ class Admin_Controller extends MY_Controller
 	{
 	    // These pages get past permission checks
 	    $ignored_pages = array(
+	    		'adm_administrator/administrator/index',
 	    		'adm_administrator/auth/index',
 	    		'adm_administrator/auth/login', 
 	    		'adm_administrator/auth/logout'
    		);
 
 	    // Check if the current page is to be ignored
-	    $current_page = $this->uri->segment(1).'/'.$this->uri->segment(2, 'index').'/'.$this->uri->segment(3, 'index');
+//	    $current_page = $this->uri->segment(1).'/'.$this->uri->segment(2, 'index').'/'.$this->uri->segment(3, 'index');
+	    $current_page = $this->_current_module.'/'.$this->_current_controller.'/'.$this->_current_action;
 
 	    // Dont need to log in, this is an open page
 		if(in_array($current_page, $ignored_pages))
