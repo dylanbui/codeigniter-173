@@ -17,26 +17,7 @@ class Dashboard extends Admin_Controller {
 	
 	function main()
 	{
-		// Path : [module_name]/[current view path]
-		if (!$this->admin_auth->is_logged_in())
-		{
-			$val = $this->form_validation;
-			
-			// Set form validation rules
-			$val->set_rules('email', 'Email', 'trim|required|email|xss_clean');
-			$val->set_rules('password', 'Password', 'trim|required|xss_clean');
-			
-			if ($val->run() AND $this->admin_auth->login($val->set_value('email'), $val->set_value('password'),FALSE))
-			{
-				// Redirect to homepage
-				redirect('adm_dashboard');
-			}
-		}
-		
-		// Hien thi form login - khong can layout
-		echo $this->render('adm_administrator/auth/login_form',$this->_data);
-		return;
-
+		$this->loadView('adm_administrator/dashboard/main');
 	}	
 	
 	function validate_credentials()
