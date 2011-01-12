@@ -9,15 +9,15 @@
 <meta http-equiv="imagetoolbar" content="no"/>
 <title>TERMINATOR: Dashboard</title>
 
-<link rel="stylesheet" href="css/reset.css" type="text/css"/>
-<link rel="stylesheet" href="css/screen.css" type="text/css"/>
-<link rel="stylesheet" href="css/fancybox.css" type="text/css"/>
-<link rel="stylesheet" href="css/jquery.wysiwyg.css" type="text/css"/>
-<link rel="stylesheet" href="css/jquery.ui.css" type="text/css"/>
-<link rel="stylesheet" href="css/visualize.css" type="text/css"/>
-<link rel="stylesheet" href="css/visualize-light.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/reset.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/screen.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/fancybox.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/jquery.wysiwyg.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/jquery.ui.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/visualize.css" type="text/css"/>
+<link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/visualize-light.css" type="text/css"/>
 <!--[if IE 7]>
-	<link rel="stylesheet" type="text/css" href="css/ie7.css" />
+	<link rel="stylesheet" type="text/css" href="<?= BASE_URL; ?>css/admin/ie7.css" />
 <![endif]-->	
 </head>
 
@@ -64,6 +64,8 @@
 <!-- *** render file breadcrumb.html *** -->
 
 <!-- *** mainpage layout ***  <div class="main pagesize"> -->
+<?php echo $main_content; ?>
+
 
 <div class="footer">
 	<div class="pagesize clear">
@@ -72,22 +74,22 @@
 	</div>
 </div>
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.visualize.js"></script>
-<script type="text/javascript" src="js/jquery.wysiwyg.js"></script>
-<script type="text/javascript" src="js/tiny_mce/jquery.tinymce.js"></script>
-<script type="text/javascript" src="js/jquery.fancybox.js"></script>
-<script type="text/javascript" src="js/jquery.idtabs.js"></script>
-<script type="text/javascript" src="js/jquery.datatables.js"></script>
-<script type="text/javascript" src="js/jquery.jeditable.js"></script>
-<script type="text/javascript" src="js/jquery.ui.js"></script>
-<script type="text/javascript" src="js/jquery.jcarousel.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.visualize.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.wysiwyg.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.fancybox.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.idtabs.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.datatables.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.jeditable.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.ui.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.jcarousel.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/jquery.validate.js"></script>
 
-<script type="text/javascript" src="js/excanvas.js"></script>
-<script type="text/javascript" src="js/cufon.js"></script>
-<script type="text/javascript" src="js/Zurich_Condensed_Lt_Bd.js"></script>
-<script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/excanvas.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/cufon.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/Zurich_Condensed_Lt_Bd.js"></script>
+<script type="text/javascript" src="<?= BASE_URL; ?>js/script.js"></script>
 
 <script type="text/javascript">
 
