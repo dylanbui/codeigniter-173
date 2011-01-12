@@ -5,10 +5,7 @@ class Auth extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
 		$this->load->library('form_validation');
-		$this->load->library('admin_auth');
-		
 	}
 	
 	function index()
@@ -42,25 +39,25 @@ class Auth extends Admin_Controller {
 
 	}	
 	
-	function validate_credentials()
-	{		
-		$this->load->model('membership_model');
-		$query = $this->membership_model->validate();
-		
-		if($query) // if the user's credentials validated...
-		{
-			$data = array(
-				'username' => $this->input->post('username'),
-				'is_logged_in' => true
-			);
-			$this->session->set_userdata($data);
-			redirect('site/members_area');
-		}
-		else // incorrect username or password
-		{
-			$this->index();
-		}
-	}	
+//	function validate_credentials()
+//	{		
+//		$this->load->model('membership_model');
+//		$query = $this->membership_model->validate();
+//		
+//		if($query) // if the user's credentials validated...
+//		{
+//			$data = array(
+//				'username' => $this->input->post('username'),
+//				'is_logged_in' => true
+//			);
+//			$this->session->set_userdata($data);
+//			redirect('site/members_area');
+//		}
+//		else // incorrect username or password
+//		{
+//			$this->index();
+//		}
+//	}	
 	
 //	function is_logged_in()
 //	{
