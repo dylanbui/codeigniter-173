@@ -1,7 +1,3 @@
-<div class="main pagesize"> <!-- *** mainpage layout *** -->
-	<div class="main-wrap">
-		<div class="page clear">
-			
 			<!-- ICONBAR -->
 			<div class="content-box clear">
 			<div class="box-body iconbar">
@@ -720,6 +716,3 @@
 				<p><strong>Attention notification:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>				
 			</div>
 			
-		</div><!-- end of page -->
-	</div>
-</div>

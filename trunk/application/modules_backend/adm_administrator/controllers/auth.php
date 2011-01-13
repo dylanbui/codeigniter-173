@@ -29,7 +29,7 @@ class Auth extends Admin_Controller {
 			if ($val->run() AND $this->admin_auth->login($val->set_value('email'), $val->set_value('password'),FALSE))
 			{
 				// Redirect to homepage
-				redirect('adm_dashboard');
+				redirect('adm_administrator/dashboard/main');
 			}
 		}
 		
@@ -37,7 +37,15 @@ class Auth extends Admin_Controller {
 		echo $this->render('adm_administrator/auth/login_form',$this->_data);
 		return;
 
-	}	
+	}
+		
+	function logout()
+	{
+		$this->admin_auth->logout();
+		// Redirect to homepage
+		redirect('adm_administrator/auth/login');
+	}
+	
 	
 //	function validate_credentials()
 //	{		
