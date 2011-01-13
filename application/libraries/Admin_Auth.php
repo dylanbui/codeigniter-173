@@ -305,6 +305,8 @@ class Admin_Auth
 		// Set session data array
 		$user = array(						
 			'adm_user_id'						=> $data->id,
+			'adm_firstname'						=> $data->firstname,
+			'adm_lastname'						=> $data->lastname,
 			'adm_username'						=> $data->username,
 			'adm_role_id'						=> $data->role_id,
 			'adm_role_code'					=> $role_data['role_code'],
