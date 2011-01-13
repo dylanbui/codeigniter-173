@@ -35,7 +35,7 @@
 			</span>
 		</div>
 	</div>
-	<form action="" method="post">
+	<form action="<?= BASE_URL; ?>adm_administrator/auth/login" method="post">
 
 		<div class="login-inside">
 
