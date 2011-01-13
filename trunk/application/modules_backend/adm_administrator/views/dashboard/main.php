@@ -468,10 +468,6 @@
 			<div class="content-box">
 			<div class="box-body">
 				<div class="box-header clear">
-					<ul class="tabs clear">
-						<li><a href="#data-table">JS plugin</a></li>
-						<li><a href="#table">Table only</a></li>
-					</ul>
 					<h2>Content Box</h2>
 				</div>
 				
@@ -479,7 +475,40 @@
 					
 					<!-- TABLE -->
 					<div id="data-table">
+					
 						<form method="post" action="#">
+						
+						<div class="tab-header clear">
+							<div class="fr">
+								<a class="button green fl-space" href="#">Green Button</a>							
+								<select name="dropdown" class="fl-space">
+									<option value="option1">choose action...</option>
+									<option value="option2">Edit</option>
+									<option value="option3">Delete</option>
+								</select>
+								<input type="submit" value="Apply" id="submit1" class="button fl-space" />
+								
+							</div>
+<!--							<div class="pager fr">
+								<span class="nav">
+									<a href="#" class="first" title="first page"><span>First</span></a>
+									<a href="#" class="previous" title="previous page"><span>Previous</span></a>
+								</span>
+								<span class="pages">
+									<a href="#" title="page 1"><span>1</span></a>
+									<a href="#" title="page 2" class="active"><span>2</span></a>
+									<a href="#" title="page 3"><span>3</span></a>
+									<a href="#" title="page 4"><span>4</span></a>
+								</span>
+								<span class="nav">
+									<a href="#" class="next" title="next page"><span>Next</span></a>
+									<a href="#" class="last" title="last page"><span>Last</span></a>
+								</span>
+							</div>
+-->							
+						</div>
+						
+						
 						<table class="style1">
 						<thead>
 							<tr>
