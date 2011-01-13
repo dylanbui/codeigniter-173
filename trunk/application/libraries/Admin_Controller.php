@@ -10,11 +10,11 @@ class Admin_Controller extends MY_Controller
 		$this->_global_layout = "main_layout";
 		
 		// Show error and exit if the user does not have sufficient permissions
-//	    if( ! $this->_check_access() )
-//	    {
-//		  	show_error("You don't permission for this action !!!");
-//		    exit;
-//	    }
+	    if( ! $this->_check_access() )
+	    {
+		  	show_error("You don't permission for this action !!!");
+		    exit;
+	    }
 	}
 
 	private function _check_access()
@@ -43,6 +43,12 @@ class Admin_Controller extends MY_Controller
 			// thong bao link nay khong ton tai
 			show_404();
 			exit();
+		}
+		else 
+		{
+			$this->_current_user = $this->session->userdata;
+			$this->_data['_current_user'] = $this->_current_user;
+			return TRUE;
 		}
 		
 		// Kiem tra permission cua account

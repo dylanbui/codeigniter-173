@@ -8,6 +8,7 @@ class MY_Controller extends MX_Controller
 	protected $_global_template;
 	protected $_global_layout;
 
+	protected $_current_user;
 	protected $_current_module;
 	protected $_current_controller;
 	protected $_current_action;
@@ -61,4 +62,31 @@ class MY_Controller extends MX_Controller
 		return $this->parser->parse($fullPath,$data,TRUE);		
 	}
 	
+	
+	/**
+     * get data from session
+     * @param String
+     * @return Mixed
+     */
+    protected function _get_session($name){
+        return $this->session->userdata($name);
+    }
+
+    /**
+     * set data to session
+     * @param String
+     * @return void
+     */
+    protected function _set_session($name, $value){
+        $this->session->set_userdata($name, $value);
+    }
+    
+    /**
+     * unset data to session
+     * @param String
+     * @return void
+     */
+    protected function _unset_session($name){
+        $this->session->unset_userdata($name);
+    }	
 }
