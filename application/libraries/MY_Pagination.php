@@ -184,7 +184,7 @@ class MY_Pagination {
 		
 		$data = array(
 			'base_url' => $this->base_url,
-			'function' => $this->function,
+			'function' => $function,
 			'num_pages' => $num_pages,
 			'num_links' => $this->num_links,
 			'start' => $start,

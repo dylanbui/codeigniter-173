@@ -33,58 +33,10 @@ class Admin_Auth
 		// Load Admin Auth language		
 		$this->ci->lang->load('adm_auth');
 		
-		// Initialize
-		$this->_init();
 	}
 
 	/* Private function */
 
-	function _init()
-	{
-//		 Init helper config variable
-//		$this->email_activation = $this->ci->config->item('DX_email_activation');
-//		
-//		$this->allow_registration = $this->ci->config->item('DX_allow_registration');
-//		$this->captcha_registration = $this->ci->config->item('DX_captcha_registration');
-//		
-//		$this->captcha_login = $this->ci->config->item('DX_captcha_login');
-//		
-//		 URIs
-//		$this->banned_uri = $this->ci->config->item('DX_banned_uri');
-//		$this->deny_uri = $this->ci->config->item('DX_deny_uri');
-//		$this->login_uri = $this->ci->config->item('DX_login_uri');
-//		$this->logout_uri = $this->ci->config->item('DX_logout_uri');
-//		$this->register_uri = $this->ci->config->item('DX_register_uri');
-//		$this->activate_uri = $this->ci->config->item('DX_activate_uri');
-//		$this->forgot_password_uri = $this->ci->config->item('DX_forgot_password_uri');
-//		$this->reset_password_uri = $this->ci->config->item('DX_reset_password_uri');
-//		$this->change_password_uri = $this->ci->config->item('DX_change_password_uri');	
-//		$this->cancel_account_uri = $this->ci->config->item('DX_cancel_account_uri');	
-//		
-//		 Forms view
-//		$this->login_view = $this->ci->config->item('DX_login_view');
-//		$this->register_view = $this->ci->config->item('DX_register_view');
-//		$this->forgot_password_view = $this->ci->config->item('DX_forgot_password_view');
-//		$this->change_password_view = $this->ci->config->item('DX_change_password_view');
-//		$this->cancel_account_view = $this->ci->config->item('DX_cancel_account_view');
-//		
-//		 Pages view
-//		$this->deny_view = $this->ci->config->item('DX_deny_view');
-//		$this->banned_view = $this->ci->config->item('DX_banned_view');
-//		$this->logged_in_view = $this->ci->config->item('DX_logged_in_view');
-//		$this->logout_view = $this->ci->config->item('DX_logout_view');		
-//		
-//		$this->register_success_view = $this->ci->config->item('DX_register_success_view');
-//		$this->activate_success_view = $this->ci->config->item('DX_activate_success_view');
-//		$this->forgot_password_success_view = $this->ci->config->item('DX_forgot_password_success_view');
-//		$this->reset_password_success_view = $this->ci->config->item('DX_reset_password_success_view');
-//		$this->change_password_success_view = $this->ci->config->item('DX_change_password_success_view');
-//		
-//		$this->register_disabled_view = $this->ci->config->item('DX_register_disabled_view');
-//		$this->activate_failed_view = $this->ci->config->item('DX_activate_failed_view');
-//		$this->reset_password_failed_view = $this->ci->config->item('DX_reset_password_failed_view');
-	}
-	
 	function _gen_pass($len = 8)
 	{
 		// No Zero (for user clarity);
@@ -489,25 +441,6 @@ class Admin_Auth
 		return $result;
 	}
 
-//	function deny_access($uri = 'deny')
-//	{
-//		$this->ci->load->helper('url');
-//	
-//		if ($uri == 'login')
-//		{
-//			redirect($this->ci->config->item('DX_login_uri'), 'location');
-//		}
-//		else if ($uri == 'banned')
-//		{
-//			redirect($this->ci->config->item('DX_banned_uri'), 'location');
-//		}
-//		else
-//		{
-//			redirect($this->ci->config->item('DX_deny_uri'), 'location');			
-//		}
-//		exit;
-//	}
-	
 	// Get user id
 	function get_user_id()
 	{
