@@ -7,7 +7,7 @@
 <meta name="robots" content="ALL,FOLLOW"/>
 <meta name="Author" content="AIT"/>
 <meta http-equiv="imagetoolbar" content="no"/>
-<title>TERMINATOR: Dashboard</title>
+<title>Administrator: Dashboard</title>
 
 <link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/reset.css" type="text/css"/>
 <link rel="stylesheet" href="<?= BASE_URL; ?>css/admin/screen.css" type="text/css"/>
@@ -31,11 +31,11 @@
 				<li><a href="#">View Site</a></li>
 				<li><a href="#">Messages</a></li>
 				<li><a href="#">Settings</a></li>
-				<li><a href="login.html" class="red">Logout</a></li>
+				<li><a href="<?= BASE_URL; ?>adm_administrator/auth/logout" class="red">Logout</a></li>
 				</ul>
 				
 				<div class="user clear">
-					<img src="images/avatar.jpg" class="avatar" alt="" />
+					<img src="<?= BASE_URL; ?>images/admin/avatar.jpg" class="avatar" alt="" />
 					<span class="user-detail">
 						<span class="name">Welcome Arnold</span>
 						<span class="text">Logged as admin</span>
@@ -46,7 +46,7 @@
 			
 			<div class="logo clear">
 			<a href="index.html" title="View dashboard">
-				<img src="images/logo_earth.png" alt="" class="picture" />
+				<img src="<?= BASE_URL; ?>images/admin/logo_earth.png" alt="" class="picture" />
 				<span class="textlogo">
 					<span class="title">TERMINATOR</span>
 					<span class="text">admin template</span>
@@ -56,7 +56,7 @@
 		</div>
 		
 		<!-- *** render file menu.html *** -->
-		
+		<?php echo Modules::run('adm_administrator/dashboard/menubar'); ?>		
 		
 	</div>
 </div>
@@ -64,13 +64,21 @@
 <!-- *** render file breadcrumb.html *** -->
 
 <!-- *** mainpage layout ***  <div class="main pagesize"> -->
-<?php echo $main_content; ?>
 
+<div class="main pagesize"> <!-- *** mainpage layout *** -->
+	<div class="main-wrap">
+		<div class="page clear">
+
+			<?php echo $main_content; ?>
+
+		</div><!-- end of page -->
+	</div>
+</div>
 
 <div class="footer">
 	<div class="pagesize clear">
-		<p class="bt-space15"><span class="copy"><strong>© 2010 Copyright by <a href="http://www.ZONEMAFIA.INFO/">ZONEMAFIA.INFO.</a></strong></span> Powered by <a href="#">TERMINATOR ADMIN.</a></p>
-		<img src="images/logo_earth_bw50.png" alt="" class="block center" />
+		<p class="bt-space15"><span class="copy"><strong>© 2010 Copyright by <a href="mailto:buivantienduc@yahoo.com">Bui Van Tien Duc</a></strong></span> Powered by <a href="mailto:buivantienduc@yahoo.com">SITE ADMIN.</a></p>
+		<img src="<?= BASE_URL; ?>images/admin/logo_earth_bw50.png" alt="" class="block center" />
 	</div>
 </div>
 
@@ -93,15 +101,15 @@
 
 <script type="text/javascript">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-12958851-8']);
-  _gaq.push(['_trackPageview']);
+  	var _gaq = _gaq || [];
+  	_gaq.push(['_setAccount', 'UA-12958851-8']);
+  	_gaq.push(['_trackPageview']);
 
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
+  	(function() {
+    	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  	})();
 
 </script>
 
