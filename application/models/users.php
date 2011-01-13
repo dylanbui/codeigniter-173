@@ -13,8 +13,8 @@ class Users extends DataMapper
 	// General function
 	function get_all($offset = 0, $row_count = 0)
 	{
-		$users_table = $this->_table;
-		$roles_table = $this->_roles_table;
+		$users_table = TB_USERS;
+		$roles_table = TB_ROLES;
 		
 		if ($offset >= 0 AND $row_count > 0)
 		{
@@ -23,11 +23,11 @@ class Users extends DataMapper
 			$this->db->join($roles_table, "$roles_table.id = $users_table.role_id");
 			$this->db->order_by("$users_table.id", "ASC");
 			
-			$query = $this->db->get($this->_table, $row_count, $offset); 
+			$query = $this->db->get($users_table, $row_count, $offset); 
 		}
 		else
 		{
-			$query = $this->db->get($this->_table);
+			$query = $this->db->get($users_table);
 		}
 		
 		return $query;
