@@ -104,7 +104,7 @@ del		{ color: #FF001C; text-decoration:line-through; }
 .head			{ padding: 0px 0px 0px 0px; background: url('../../images/admin/gear.png') 500px bottom no-repeat; }
 .head_top		{ position: relative; min-height: 114px; }
 .main			{ }
-.main-wrap		{ width: 100%; padding-top: 10px; }
+.main-wrap		{ width: 100%; padding-top: 10px; min-height: 600px; }
 .page			{ padding-bottom: 50px; }
 
 .logo			{ padding-top: 20px; }
