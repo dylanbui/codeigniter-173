@@ -67,7 +67,6 @@ class User extends Admin_Controller
 			}				
 		}
 		
-		
 		/* Showing page to user */
 		
 		// Get offset and limit for page viewing
@@ -79,6 +78,7 @@ class User extends Admin_Controller
 		$this->_data['users'] = $this->users->get_all($offset, $row_count)->result();
 		
 		// Pagination config
+		$p_config['paging_template'] = "{$this->_global_template}/parser/paging";
 		$p_config['base_url'] = 'adm_user/user/show/';
 		$p_config['uri_segment'] = 3;
 		$p_config['num_links'] = 2;
@@ -89,7 +89,6 @@ class User extends Admin_Controller
 		$this->pagination->initialize($p_config);		
 		// Create pagination links
 		$this->_data['pagination'] = $this->pagination->create_links();
-		
 		// Load view
 		$this->loadView('adm_user/user/show');
 	}
