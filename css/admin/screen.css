@@ -441,7 +441,7 @@ span.required			{ color: #FF0000; font-weight: bold; }
 label.error        		{ color: #FF0000; font-weight: bold; }
 
 /*** page navigation ***/
-
+.tab-header		{ width: auto; padding-bottom: 5px; }
 .tab-footer		{ width: auto; padding-bottom: 10px; margin-top: -10px; }
 .pager			{ font-size: 11px; line-height: 20px; }
 .pager a		{ display: block; float: left; }
