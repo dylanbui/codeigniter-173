@@ -675,11 +675,8 @@ class Admin_Auth
 		$result = FAlSE;
 
 		// Search current logged in user in database
-		if ($query = $this->ci->users->get_user_by_id($this->ci->session->userdata('adm_user_id')) AND $query->result_count() > 0)
+		if ($row = $this->ci->users->get_user_by_id($this->ci->session->userdata('adm_user_id')) AND $row->result_count() > 0)
 		{
-			// Get current logged in user
-			$row = $query->row();
-
 			$pass = $this->_encode($old_pass);
 
 			// Check if old password correct
