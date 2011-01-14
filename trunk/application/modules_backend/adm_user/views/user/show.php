@@ -45,9 +45,6 @@
 			<div class="box-body">
 				<div class="box-header clear">
 				
-						<div class="pager fr">
-							<a class="button green fl-space" href="#">Green Button</a>
-						</div>
 				
 <!--					<ul class="tabs clear">
 						<li><a class="button green fl-space" href="#">Green Button</a></li>
@@ -55,10 +52,29 @@
 					<h2>Content Box</h2>
 				</div>
 				
+				
 				<div class="box-wrap clear">
 					
 					<!-- TABLE -->
 					<div id="data-table">
+					
+						<div class="tab-header clear">
+							<div class="fr">
+								<a class="button green fl-space" href="#">Add New</a>							
+								
+							</div>
+							
+							<div class="fl">
+								<select name="dropdown" class="fl-space">
+									<option value="option1">choose action...</option>
+									<option value="option2">Edit</option>
+									<option value="option3">Delete</option>
+								</select>
+								<input type="submit" value="Apply" id="submit1" class="button fl-space" />
+							</div>
+						</div>
+					
+					
 						<form method="post" action="#">
 						<table class="style1">
 						<thead>

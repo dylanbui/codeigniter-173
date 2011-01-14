@@ -94,5 +94,15 @@ class User extends Admin_Controller
 		$this->loadView('adm_user/user/show');
 	}
 
+	
+	function password()
+	{
+		$this->admin_auth->change_password("123456","123456");
+		
+		print "<pre>";
+		print_r('Thay doi xong');
+		print "</pre>";
+		exit();
+	}
 }
 ?>
