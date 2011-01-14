@@ -185,8 +185,8 @@ class Users extends DataMapper
 	function change_password($user_id, $new_pass)
 	{
 //		$this->db->set('password', $new_pass);
-		$this->where('id', $user_id)->get();
-		return $this->db->update(array('password' => $new_pass));
+		return $this->where('id', $user_id)->update(array('password' => $new_pass));
+
 	}
 
 }
