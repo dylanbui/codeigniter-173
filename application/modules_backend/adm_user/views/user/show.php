@@ -100,20 +100,7 @@
 						
 						<div class="tab-footer clear">
 							<div class="pager fr">
-								<span class="nav">
-									<a href="#" class="first" title="first page"><span>First</span></a>
-									<a href="#" class="previous" title="previous page"><span>Previous</span></a>
-								</span>
-								<span class="pages">
-									<a href="#" title="page 1"><span>1</span></a>
-									<a href="#" title="page 2" class="active"><span>2</span></a>
-									<a href="#" title="page 3"><span>3</span></a>
-									<a href="#" title="page 4"><span>4</span></a>
-								</span>
-								<span class="nav">
-									<a href="#" class="next" title="next page"><span>Next</span></a>
-									<a href="#" class="last" title="last page"><span>Last</span></a>
-								</span>
+								<?= $pagination; ?>
 							</div>
 							
 						</div>

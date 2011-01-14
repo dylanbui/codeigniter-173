@@ -72,15 +72,16 @@ class User extends Admin_Controller
 		// Get offset and limit for page viewing
 //		$offset = (int) $this->uri->segment(3);
 		// Number of record showing per page
-		$row_count = 10;
+		$row_count = 5;
 		
 		// Get all users
 		$this->_data['users'] = $this->users->get_all($offset, $row_count)->result();
 		
 		// Pagination config
 		$p_config['paging_template'] = "{$this->_global_template}/parser/paging";
-		$p_config['base_url'] = 'adm_user/user/show/';
-		$p_config['uri_segment'] = 3;
+		$p_config['base_url'] = 'adm_user/user/show/%d';
+		
+		$p_config['uri_segment'] = 4;
 		$p_config['num_links'] = 2;
 		$p_config['total_rows'] = $this->users->get_all()->num_rows();
 		$p_config['per_page'] = $row_count;
