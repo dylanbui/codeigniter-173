@@ -135,6 +135,7 @@ class MY_Pagination {
 		}
 		else
 		{*/
+			$this->cur_page = 1;
 			if ($CI->uri->segment($this->uri_segment) != 0)
 			{
 				$this->cur_page = $CI->uri->segment($this->uri_segment);
@@ -183,7 +184,7 @@ class MY_Pagination {
 		//}
 		
 		$data = array(
-			'base_url' => $this->base_url,
+			'base_url' => BASE_URL.$this->base_url,
 			'function' => $function,
 			'num_pages' => $num_pages,
 			'num_links' => $this->num_links,
@@ -191,7 +192,7 @@ class MY_Pagination {
 			'end' => $end,
 			'cur_page' => $this->cur_page,
 			'per_page' => $this->per_page,
-			
+			'uri_page_number' => $uri_page_number
 		);
 		
 		// And here we go... Load paging template
