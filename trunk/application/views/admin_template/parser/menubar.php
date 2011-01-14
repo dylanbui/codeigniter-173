@@ -19,5 +19,6 @@
 				<li><a href="charts.html">Charts</a></li>
 				<li><a href="gallery.html">Image Gallery</a></li>
 				<li><a href="settings.html">Settings</a></li>
+				<li><a href="<?= BASE_URL; ?>adm_user/user/show">Users</a></li>
 			</ul>
 		</div>
