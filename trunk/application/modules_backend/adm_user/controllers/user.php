@@ -19,54 +19,6 @@ class User extends Admin_Controller
 	{
 		$this->load->model('users', 'users');			
 		
-		// Search checkbox in post array
-		foreach ($_POST as $key => $value)
-		{
-			// If checkbox found
-			if (substr($key, 0, 9) == 'checkbox_')
-			{
-				// If ban button pressed
-				if (isset($_POST['ban']))
-				{
-					// Ban user based on checkbox value (id)
-					$this->users->ban_user($value);
-				}
-				// If unban button pressed
-				else if (isset($_POST['unban']))
-				{
-					// Unban user
-					$this->users->unban_user($value);
-				}
-				else if (isset($_POST['reset_pass']))
-				{
-					// Set default message
-					$this->_data['reset_message'] = 'Reset password failed';
-				
-					// Get user and check if User ID exist
-					if ($query = $this->users->get_user_by_id($value) AND $query->num_rows() == 1)
-					{		
-						// Get user record				
-						$user = $query->row();
-						
-						// Create new key, password and send email to user
-						if ($this->dx_auth->forgot_password($user->username))
-						{
-							// Query once again, because the database is updated after calling forgot_password.
-							$query = $this->users->get_user_by_id($value);
-							// Get user record
-							$user = $query->row();
-														
-							// Reset the password
-							if ($this->dx_auth->reset_password($user->username, $user->newpass_key))
-							{							
-								$this->_data['reset_message'] = 'Reset password success';
-							}
-						}
-					}
-				}
-			}				
-		}
-		
 		/* Showing page to user */
 		
 		// Get offset and limit for page viewing
@@ -94,6 +46,10 @@ class User extends Admin_Controller
 		$this->loadView('adm_user/user/show');
 	}
 
+	function add()
+	{
+		$this->loadView('adm_user/user/add');		
+	}
 	
 	function password()
 	{
