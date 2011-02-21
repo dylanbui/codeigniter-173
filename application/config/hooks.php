@@ -16,12 +16,21 @@
 /* Location: ./system/application/config/hooks.php */
 
 
-$hook['pre_controller'] = array(
-    'class'    => 'Auth_Hooks',
-    'function' => 'main',
-    'filename' => 'auth_hooks.php',
-    'filepath' => 'hooks',
+//$hook['pre_controller'] = array(
+//    'class'    => 'Auth_Hooks',
+//    'function' => 'main',
+//    'filename' => 'auth_hooks.php',
+//    'filepath' => 'hooks',
+//
+//);
 
+// http://www.jigniter.com/profiling-your-codeigniter-applications/
+
+$hook['post_controller_constructor'] = array(
+	'class'    => '',
+	'function' => 'enable_profiler',
+	'filename' => 'profiler.php',
+	'filepath' => 'hooks',
+	'params'   => array()
 );
-
  
